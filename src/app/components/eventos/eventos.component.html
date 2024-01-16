@@ -1,0 +1,68 @@
+<app-titulo [titulo]="'Eventos'"></app-titulo>
+
+<div class="form-inline">
+  <div class="form-group mb-2">
+    Filtro :
+    <input
+      type="text"
+      class="form-control mr-2"
+      placeholder="buscar"
+      [(ngModel)]="filtroLista"
+      >
+  </div>
+</div>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        <button type="button" class="btn btn-outline-light btn-sn"
+        (click)="alterarImagem()">
+      <i class="{{!exibirImagem ? 'fa fa-eye' : 'fa fa-eye-slash'}}"></i>
+      {{!exibirImagem ? 'exibir' : 'ocultar'}}
+      </button>
+      </th>
+      <th>#</th>
+      <th>Tema</th>
+      <th>Local</th>
+      <th>Data</th>
+      <th>Qtd Pessoas</th>
+      <th>Lote</th>
+      <th>Opções</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="eventos && eventos.length">
+    <tr *ngFor="let evento of eventosFiltrados">
+      <td>{{evento.imageURL}}</td>
+      <td>{{evento.id}}</td>
+      <td>{{evento.tema}}</td>
+      <td>{{evento.local}}</td>
+      <td>{{evento.dataEvento | DateFormatPipe }}</td>
+      <td>{{evento.qtdPessoas}}</td>
+      <td>{{evento.lotes[0]}}</td>
+      <td>
+          <button type="button" class="btn btn-primary btn-sm m-1" data-bs-toggle="tooltip" title="Editar">
+            <i class="fa fa-edit"></i>
+          </button>
+          <button type="button" class="btn btn-danger btn-sm m-1" data-bs-toggle="tooltip" (click)="openModal(template)" title="Excluir">
+            <i class="fa fa-trash"></i>
+          </button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!eventos.length">
+    <tr>
+      <td colspan="8">
+        <h4>Nenhum evento encontrado !</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+
+<ng-template #template>
+  <div class="modal-body text-center">
+    <p>Tem certeza que quer deletar este Evento ?</p>
+    <button type="button" class="btn btn-default" (click)="confirm()">Sim</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">Não</button>
+  </div>
+</ng-template>
